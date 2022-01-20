@@ -34,11 +34,11 @@ function App() {
         e.preventDefault();
         axios.post(`${API_BASE}/recipe`, {
           owner: "hui0213",
-          title: "트러플 된장찌게",
+          title: "송로버섯 된장찌개",
           favorite: false,
           ver: 1,
-          memo: "fsadfas",
-          ingredients: [{ name: "tofu", amount: 100 }, { name: "호박", amount: 100 }, { name: "된장", amount: 200 }],
+          memo: "이거 존나 맛있음",
+          ingredients: [{ name: "두부", amount: 100 }, { name: "애호박", amount: 100 }, { name: "된장", amount: 200 }],
           procedure: [{ index: 1, content: "보글보글 끓여요"}, { index: 2, content: "열심히 해봐요"}]
         }).then(console.log);
       }}>recipe</div>
