@@ -28,20 +28,24 @@ function App() {
         axios.post(`${API_BASE}/login`, {
           id: "hui0213",
           password: "1234"
-        }).then(console.log);;
+        }).then(console.log);
       }}>login</div>
       <div onClick={(e) => {
         e.preventDefault();
         axios.post(`${API_BASE}/recipe`, {
           owner: "hui0213",
-          title: "송로버섯 고추장찌개",
-          favorite: false,
+          title: "한우 등심 규카츠",
+          favorite: true,
           ver: 1,
-          memo: "이거 존나 맛있음",
-          ingredients: [{ name: "김치", amount: 100 }, { name: "애호박", amount: 100 }, { name: "고추장", amount: 200 }],
-          procedure: [{ index: 1, content: "보글보글 끓여요"}, { index: 2, content: "열심히 해봐요"}]
+          memo: "마시따",
+          ingredients: [{ name: "한우", amount: 200 }, { name: "계란", amount: 200 }, { name: "밀가루", amount: 50 }],
+          procedure: [
+            { index: 1, content: "계란물을 만들어요" }, 
+            { index: 2, content: "튀김옷을 입혀요" },
+            { index: 3, content: "튀겨요" }
+          ]
         }).then(console.log);
-      }}>recipe</div>
+      }}>add recipe</div>
       <div onClick={(e) => {
         e.preventDefault();
         axios.get(`${API_BASE}/recipe/hui0213`).then(console.log);
