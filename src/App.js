@@ -1,10 +1,11 @@
 import './App.css';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 const API_BASE = process.env.REACT_APP_API_BASE;
 
 function App() {
+  const [ src, setSrc ] = useState("");
   // useEffect(() => {
   //   axios.get(`${API_BASE}/recipe`).then(res => {
   //     console.log(res);
@@ -12,6 +13,19 @@ function App() {
   //     console.log(err);
   //   });
   // }, []);
+
+  const onChange = async (e) => {
+    const thumbnail = e.target.files[0];
+    const fd = new FormData();
+    fd.append('image', thumbnail);
+
+    await axios.post(`${API_BASE}/image`, fd).then(res => {
+      setSrc(res.data);
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    });
+  };
 
   return (
     <div className="App">
@@ -50,6 +64,10 @@ function App() {
         e.preventDefault();
         axios.get(`${API_BASE}/recipe/hui0213`).then(console.log);
       }}>get recipe</div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
+        <input type="file" onChange={onChange} />
+        {src === "" ? <></> : <img src={`${API_BASE}/image/${src}`} style={{ width: "100px", height: "100px" }}/>}
+      </div>
     </div>
   );
 }
