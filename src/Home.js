@@ -18,7 +18,7 @@ import 'react-tiny-fab/dist/styles.css';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddIcon from '@mui/icons-material/Add';
 import Slide from '@mui/material/Slide';
-
+import Modal from './Modal';
 
 const API_BASE = "http://192.249.18.176:443";
 
@@ -39,6 +39,18 @@ export default function Home() {
     const [ show, setShow ] = useState(false);
   	// const [ recipesLoading, setRecipesLoading ] = useState(false);
   	const [ favoriteRecipeList, setFavoriteRecipeList ] = useState([]);
+    const [ modalOpen, setModalOpen ] = useState(false);
+    
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+    const logoutModal = () => {
+        setModalOpen(false);
+        nav('/login');
+    }
 
     useEffect(()=> {
 		// get every recipe of given userId
@@ -110,15 +122,17 @@ export default function Home() {
         }).catch(console.log);
     }, [searchTerm]);
   
-    const onClickHandler = () => {
-        if(window.confirm('로그아웃 하시겠습니까?')){
-            alert('로그아웃 완료!');
-            setShow(false);
-            setTimeout(() => {
-                nav(`/login`);
-            }, 100);
-        }
-    }
+    
+    // const onClickHandler = () => {
+    //     if(window.confirm('로그아웃 하시겠습니까?')){
+    //         alert('로그아웃 완료!');
+    //         setShow(false);
+    //         setTimeout(() => {
+    //             nav(`/login`);
+    //         }, 100);
+    //     }
+    // }
+    
 
     return (
         <>
@@ -129,7 +143,10 @@ export default function Home() {
                         <div className="infobox">
                             <div className = "say_hi">{nickname}님 안녕하세요 :)</div>
                             <div className="logouticon">
-                                <LogoutIcon sx={{color: "white"}} onClick={onClickHandler} />
+                                <LogoutIcon sx={{color: "white"}} onClick={openModal} />
+                                <Modal open={modalOpen} close={closeModal} logout={logoutModal} header="Logout Check">
+                                    정말 로그아웃 하시겠습니까?
+                                </Modal>
                             </div>
                         </div>
                     </div>

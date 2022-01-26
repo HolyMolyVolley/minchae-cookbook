@@ -100,6 +100,11 @@ function RecipeChart() {
                     }, 200);
                 }}/>
                 <div className = "graph_title">버전 별 재료 변화</div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <div>
                     {
                         chartOption &&
@@ -111,7 +116,7 @@ function RecipeChart() {
                                     series={e.series}
                                     type="line"
                                     width="700"/>
-                                <div className='chartname'>{`${e.options.chart.id}의 version에 따른 재료량 추이 그래프`}</div>
+                                <div className='chartname'>{`${e.options.chart.id}의 변천사`}</div>
                                 <br/>
                                 <br/>
                                 <br/>
