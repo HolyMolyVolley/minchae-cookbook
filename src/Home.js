@@ -17,14 +17,25 @@ import { Fab } from 'react-tiny-fab';
 import 'react-tiny-fab/dist/styles.css';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddIcon from '@mui/icons-material/Add';
+
 import Slide from '@mui/material/Slide';
-import Modal from './Modal';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+
 
 const API_BASE = "http://192.249.18.176:443";
 
 // install Swiper modules 
 SwiperCore.use([Pagination]);
 SwiperCore.use([Scrollbar]);
+
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
 export default function Home() {
 	const nav = useNavigate();
@@ -51,6 +62,9 @@ export default function Home() {
         setModalOpen(false);
         nav('/login');
     }
+
+
+    const [ dialog, setDialog ] = useState(false);
 
     useEffect(()=> {
 		// get every recipe of given userId
@@ -96,7 +110,7 @@ export default function Home() {
                                 <div className="recipe_body">
                                     <div>{
                                         val.img 
-                                            ? <img style={{ width: "200px", height: "200px", borderRadius: "20px", border: "1px solid black"}} src={`${API_BASE}/image/${val.img}`}/>
+                                            ? <img style={{ width: "200px", height: "200px", borderRadius: "20px"}} src={`${API_BASE}/image/${val.img}`}/>
                                             : <div style={{ width: "200px", height: "200px" }}></div>
                                     }</div>
 
@@ -122,31 +136,27 @@ export default function Home() {
         }).catch(console.log);
     }, [searchTerm]);
   
-    
-    // const onClickHandler = () => {
-    //     if(window.confirm('로그아웃 하시겠습니까?')){
-    //         alert('로그아웃 완료!');
-    //         setShow(false);
-    //         setTimeout(() => {
-    //             nav(`/login`);
-    //         }, 100);
-    //     }
-    // }
-    
+    const onClickHandler = () => {
+        setDialog(true);
+        // if(window.confirm('로그아웃 하시겠습니까?')){
+        //     alert('로그아웃 완료!');
+        //     setShow(false);
+        //     setTimeout(() => {
+        //         nav(`/login`);
+        //     }, 100);
+        // }
+    }
 
     return (
         <>
             <Slide direction="down" in={show} mountOnEnter unmountOnExit>
                 <div className = "title_bar">
                     <div className="infobody">
-                        <div className = "title">김민채의 요리보고 조리보고</div>
+                        <div className = "title">김민채의<br/>요리보고<br/>조리보고</div>
                         <div className="infobox">
-                            <div className = "say_hi">{nickname}님 안녕하세요 :)</div>
+                            <div className = "say_hi">{nickname}님 방가방가 ~</div>
                             <div className="logouticon">
-                                <LogoutIcon sx={{color: "white"}} onClick={openModal} />
-                                <Modal open={modalOpen} close={closeModal} logout={logoutModal} header="Logout Check">
-                                    정말 로그아웃 하시겠습니까?
-                                </Modal>
+                                <LogoutIcon sx={{color: "rgb(90,90,90)"}} onClick={onClickHandler} />
                             </div>
                         </div>
                     </div>
@@ -154,8 +164,8 @@ export default function Home() {
             </Slide>
             <Swiper 
                 slidesPerView="auto" 
-                slidesOffsetBefore = {50} 
-                slidesOffsetAfter = {50} 
+                slidesOffsetBefore = {70} 
+                slidesOffsetAfter = {70} 
                 centeredSlides={false} 
                 spaceBetween={50} 
                 grabCursor={true} 
@@ -197,6 +207,30 @@ export default function Home() {
             <div className = "recipe_container"> 
                 {recipeList}
             </div>
+
+            <Dialog
+                open={dialog}
+                TransitionComponent={Transition}
+                onClose={() => setShow(false)}>
+                <DialogTitle>로그아웃 하시겠습니까?</DialogTitle>
+                <DialogActions>
+                    <Button onClick={(e) => {
+                        e.preventDefault();
+                        setDialog(false);
+                    }}>
+                        취소
+                    </Button>
+                    <Button onClick={(e) => {
+                        e.preventDefault();
+                        setShow(false);
+                        setTimeout(() => {
+                            nav(`/login`);
+                        }, 100);
+                    }}>
+                        확인
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
